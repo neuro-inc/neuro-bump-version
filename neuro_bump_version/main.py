@@ -30,7 +30,7 @@ def main() -> None:
 
     out = subprocess.run(["git", "tag", "-l"], capture_output=True, text=True)
     if out.returncode:
-        click.echo(out.stfdout, nl=False)
+        click.echo(out.stdout, nl=False)
         click.echo(out.stderr, nl=False, err=True)
         sys.exit(out.returncode)
     today = datetime.date.today()
