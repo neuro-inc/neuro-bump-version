@@ -1,12 +1,8 @@
 name: 'Prepare environment'
-description: 'Checkout, setup Python and Poetry, install dependencies'
+description: 'setup Python and Poetry, install dependencies'
 runs:
   using: "composite"
   steps:
-    - name: Checkout commit
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
     - name: Install python
       uses: actions/setup-python@v2
       with:

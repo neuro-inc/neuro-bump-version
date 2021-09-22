@@ -15,6 +15,10 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout commit
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Prepare
       uses: ./.github/actions/prepare
     - name: Check pre-commit
@@ -25,13 +29,17 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Prepare
-        uses: ./.github/actions/prepare
-      - name: Set Version
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          poetry version ${VERSION}
-      - name: Build
-        run: poetry build
-      - name: Publish
-        run: poetry publish --username __token__ --password ${{ secrets.PYPI_TOKEN }}
+    - name: Checkout commit
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Prepare
+      uses: ./.github/actions/prepare
+    - name: Set Version
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/v}
+        poetry version ${VERSION}
+    - name: Build
+      run: poetry build
+    - name: Publish
+      run: poetry publish --username __token__ --password ${{ secrets.PYPI_TOKEN }}
