@@ -1,0 +1,45 @@
+name: 'Prepare environment'
+description: 'Checkout, setup Python and Poetry, install dependencies'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout commit
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.7
+    - name: Load cached Poetry installation
+      uses: actions/cache@v2
+      with:
+        path: ~/.local  # the path depends on the OS
+        key: poetry-0  # increment to reset cache
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    - name: Collect poetry metadata
+      id: meta
+      run: |
+        echo "::set-output name=poetry::$(poetry config cache-dir)"
+        echo "::set-output name=pip::$(pip cache dir)"
+      shell: bash
+    - name: Cache pre-commit and poetry packages
+      id: cache
+      uses: actions/cache@v2.1.6
+      with:
+        path: |
+          ${{ steps.meta.outputs.poetry }}
+          ${{ steps.meta.outputs.pip }}
+          ~/.cache/pre-commit
+          ${{ env.PRE_COMMIT_HOME }}
+          ${{ env.XDG_CACHE_HOME }}
+          .mypy_cache
+        key: ${{ hashFiles('**/poetry.lock') }}
+    - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: poetry install --no-interaction
+      shell: bash

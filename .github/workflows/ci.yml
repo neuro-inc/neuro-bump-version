@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - v*.*
+    - v*.*.*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - name: Prepare
+      uses: ./.github/actions/prepare
+    - name: Check pre-commit
+      run: poetry run pre-commit run --all-files --show-diff-on-failure
+    - name: MyPy
+      run: poetry run mypy --strict -p neuro_bump_version
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prepare
+        uses: ./.github/actions/prepare
+      - name: Set Version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          poetry version ${VERSION}
+      - name: Build
+        run: poetry build
+      - name: Publish
+        run: poetry publish --username __token__ --password ${{ secrets.PYPI_TOKEN }}
