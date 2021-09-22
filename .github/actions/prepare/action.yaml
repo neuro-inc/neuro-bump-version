@@ -36,6 +36,8 @@ runs:
           .mypy_cache
         key: ${{ hashFiles('**/poetry.lock') }}
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction
+      run: |
+        if [[ "${{ steps.cache.outputs.cache-hit }}" != "true"  ]]; then
+          poetry install --no-interaction
+        fi
       shell: bash
