@@ -21,9 +21,11 @@ $ pipx install neuro-bump-version
 
 ## Versioning schema
 
-The schema should conform SemVer, CalVer and Python PEP 440.
+The schema should conform SemVer, CalVer, and Python PEP 440.
 
-We use `YY.MM(.NN)` naming where `YY` is last 2 digits of year, `MM` is month number without trailing zero, NN os  an incremental number instead, resetting this number to zero every month.
+We use `YY.MM(.NN)` naming where `YY` is the last 2 digits of year, `MM` is the month
+number without trailing zero, NN is an incremental number instead, resetting this number
+to zero every month.
 
 Zero incremental number is omitted.
 
