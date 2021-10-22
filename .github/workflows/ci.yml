@@ -8,8 +8,10 @@ on:
     - v*.*.*
   pull_request:
     branches:
-      - master
+    - master
 
+  schedule:
+  - cron: 0 4 * * *
 jobs:
   lint:
     name: Lint
