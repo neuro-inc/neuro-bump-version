@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 import click
-import semver
+from semver import Version
 
 
 def find_root() -> pathlib.Path:
@@ -55,11 +55,11 @@ def main() -> None:
         click.echo(out.stderr, nl=False, err=True)
         sys.exit(out.returncode)
     today = datetime.date.today()
-    current = semver.Version(today.year % 100, today.month, 0)
+    current = Version(today.year % 100, today.month, 0)
     versions = []
     for line in out.stdout.splitlines():
         try:
-            versions.append(semver.parse(line.strip()))
+            versions.append(Version.parse(line.strip()))
         except ValueError:
             pass
     versions = [
@@ -71,7 +71,7 @@ def main() -> None:
     if not versions:
         version = current
     else:
-        version = versions[-1].next_patch
+        version = versions[-1].bump_patch()
 
     click.echo(f"Tag version v{version}:")
     click.secho(f"git tag -a v{version} -m 'Release {version}'", bold=True)

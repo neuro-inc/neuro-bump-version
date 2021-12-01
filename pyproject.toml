@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neuro-bump-version"
-version = "21.12.3"
+version = "21.12.4"
 description = "Bump version for Neu.ro projects"
 authors = ["Andrew Svetlov <andrew.svetlov@gmail.com>"]
 license = "Apache-2.0"
@@ -26,9 +26,3 @@ mypy = "^0.910"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[[tool.mypy.overrides]]
-module = [
-    "semver",
-]
-ignore_missing_imports = true
