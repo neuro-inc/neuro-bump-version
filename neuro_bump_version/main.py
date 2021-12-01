@@ -55,7 +55,7 @@ def main() -> None:
         click.echo(out.stderr, nl=False, err=True)
         sys.exit(out.returncode)
     today = datetime.date.today()
-    current = Version(today.year % 100, today.month, 0)
+    current = Version(f"{today.year % 100}.{today.month}.0")
     versions = []
     for line in out.stdout.splitlines():
         try:
