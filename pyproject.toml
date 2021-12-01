@@ -16,7 +16,7 @@ neuro-bump-version = 'neuro_bump_version.main:main'
 [tool.poetry.dependencies]
 python = ">=3.7"
 click = "~=8.0.1"
-semver = "^2.13.0"
+semver = "3.0.0-dev.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
