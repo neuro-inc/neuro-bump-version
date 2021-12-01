@@ -18,15 +18,36 @@ def find_root() -> pathlib.Path:
     )
 
 
+def pyproject_guard(root: pathlib.Path) -> bool:
+    fname = root / "pyproject.toml"
+    if not fname.exists():
+        return False
+    if not fname.is_file():
+        return False
+    if "[tool.setuptools_scm]" not in fname.read_text():
+        return False
+    return True
+
+
+def setup_py_guard(root: pathlib.Path) -> bool:
+    fname = root / "pyproject.toml"
+    if not fname.exists():
+        return False
+    if not fname.is_file():
+        return False
+    if "use_scm_version" not in fname.read_text():
+        return False
+    return True
+
+
 @click.command()
 def main() -> None:
-    setup_py = find_root() / "setup.py"
-    if not setup_py.exists():
-        raise click.ClickException(f"{setup_py} doesn't exist")
-    if not setup_py.is_file():
-        raise click.ClickException(f"{setup_py} is not a file")
-    if "use_scm_version" not in setup_py.read_text():
-        raise click.ClickException(f"{setup_py} doesn't contain use_scm_version clause")
+    root = find_root()
+    if not pyproject_guard(root) and not setup_py_guard(root):
+        raise RuntimeError(
+            "There is no pyproject.toml or setup.py that contains "
+            "setuptools_scm configuration"
+        )
 
     out = subprocess.run(["git", "tag", "-l"], capture_output=True, text=True)
     if out.returncode:
