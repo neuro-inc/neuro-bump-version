@@ -60,7 +60,7 @@ def main() -> None:
     for line in out.stdout.splitlines():
         try:
             version = parse(line.strip())
-            if not isinstance(version, version):
+            if not isinstance(version, Version):
                 # LegacyVersion
                 continue
             if version.epoch:
