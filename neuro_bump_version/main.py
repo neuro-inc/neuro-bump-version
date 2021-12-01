@@ -81,7 +81,8 @@ def main() -> None:
     if not versions:
         version = current
     else:
-        version = versions[-1].bump_patch()
+        prev = versions[-1]
+        version = Version(prev.major, prev.minor, prev.micro + 1)
 
     click.echo(f"Tag version v{version}:")
     click.secho(f"git tag -a v{version} -m 'Release {version}'", bold=True)
