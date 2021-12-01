@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 import click
-from semver import Version  # type: ignore[attr-defined]
+from packaging.version import Version, parse
 
 
 def find_root() -> pathlib.Path:
@@ -59,7 +59,17 @@ def main() -> None:
     versions = []
     for line in out.stdout.splitlines():
         try:
-            versions.append(Version.parse(line.strip()))
+            version = parse(line.strip())
+            if not isinstance(version, version):
+                # LegacyVersion
+                continue
+            if version.epoch:
+                # Versions with epoch are not semver compliant
+                continue
+            if version.base_version != str(version):
+                # Pre, post, and dev releases are not semver compliant
+                continue
+            versions.append(version)
         except ValueError:
             pass
     versions = [
