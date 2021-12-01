@@ -5,7 +5,6 @@ import sys
 
 import click
 import semver
-from semver.exceptions import ParseVersionError
 
 
 def find_root() -> pathlib.Path:
@@ -60,8 +59,8 @@ def main() -> None:
     versions = []
     for line in out.stdout.splitlines():
         try:
-            versions.append(semver.Version.parse(line.strip()))
-        except ParseVersionError:
+            versions.append(semver.parse(line.strip()))
+        except ValueError:
             pass
     versions = [
         v
