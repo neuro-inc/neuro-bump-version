@@ -34,7 +34,7 @@ def main() -> None:
         click.echo(out.stderr, nl=False, err=True)
         sys.exit(out.returncode)
     today = datetime.date.today()
-    current = semver.Version(today.year % 100, today.month)
+    current = semver.Version(today.year % 100, today.month, 0)
     versions = sorted(
         semver.Version.parse(line.strip()) for line in out.stdout.splitlines()
     )
