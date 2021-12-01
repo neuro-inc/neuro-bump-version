@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 import click
-from semver import Version
+from semver import Version  # type: ignore[attr-defined]
 
 
 def find_root() -> pathlib.Path:
