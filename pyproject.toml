@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "neuro-bump-version"
-version = "21.12.1"
+version = "21.12.2"
 description = "Bump version for Neu.ro projects"
 authors = ["Andrew Svetlov <andrew.svetlov@gmail.com>"]
 license = "Apache-2.0"

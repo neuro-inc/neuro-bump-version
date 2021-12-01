@@ -5,6 +5,7 @@ import sys
 
 import click
 import semver
+from semver.exceptions import ParseVersionError
 
 
 def find_root() -> pathlib.Path:
@@ -56,11 +57,16 @@ def main() -> None:
         sys.exit(out.returncode)
     today = datetime.date.today()
     current = semver.Version(today.year % 100, today.month, 0)
-    versions = sorted(
-        semver.Version.parse(line.strip()) for line in out.stdout.splitlines()
-    )
+    versions = []
+    for line in out.stdout.splitlines():
+        try:
+            versions.append(semver.Version.parse(line.strip()))
+        except ParseVersionError:
+            pass
     versions = [
-        v for v in versions if v.major == current.major and v.minor == current.minor
+        v
+        for v in sorted(versions)
+        if v.major == current.major and v.minor == current.minor
     ]
 
     if not versions:
