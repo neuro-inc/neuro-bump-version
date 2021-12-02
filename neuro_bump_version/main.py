@@ -82,7 +82,7 @@ def main() -> None:
         version = current
     else:
         prev = versions[-1]
-        version = Version(f"{prev.major}.{prev.minor}{prev.micro + 1}")
+        version = Version(f"{prev.major}.{prev.minor}.{prev.micro + 1}")
 
     click.echo(f"Tag version v{version}:")
     click.secho(f"git tag -a v{version} -m 'Release {version}'", bold=True)
