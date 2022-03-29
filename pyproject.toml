@@ -15,7 +15,7 @@ neuro-bump-version = 'neuro_bump_version.main:main'
 
 [tool.poetry.dependencies]
 python = ">=3.7"
-click = "~=8.0.1"
+click = ">=8.0.1,<8.2.0"
 packaging = "^21.3"
 
 [tool.poetry.dev-dependencies]
