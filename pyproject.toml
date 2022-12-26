@@ -20,7 +20,7 @@ packaging = ">=21.3,<23.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.2"
-pre-commit = "^2.20.0"
+pre-commit = "^2.21.0"
 mypy = "^0.991"
 
 [build-system]
